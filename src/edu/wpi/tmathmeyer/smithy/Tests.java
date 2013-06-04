@@ -6,7 +6,7 @@ public class Tests {
 		print(a);
 		System.out.println("\n\n\n\n\n");
 		
-		print(SmithyEntityMap.rotate(90, a));
+		//print(SmithyEntityMap.rotate(90, a));
 		
 		
 	}
