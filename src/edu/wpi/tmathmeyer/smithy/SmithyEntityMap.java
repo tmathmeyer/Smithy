@@ -136,6 +136,49 @@ public class SmithyEntityMap {
 		}
 	}
 	
+	public class Dimension{
+		private int lon,lat;
+		public Dimension(int h, int l){
+			if (h > l)
+			{
+				this.setLon(h);
+				this.setLat(l);
+			}
+			else
+			{
+				this.setLon(l);
+				this.setLat(h);
+			}
+		}
+		public int getLon() {
+			return lon;
+		}
+		public void setLon(int h) {
+			this.lon = h;
+		}
+		public int getLat() {
+			return lat;
+		}
+		public void setLat(int lat) {
+			this.lat = lat;
+		}
+		public boolean equals(Object other){
+			if (other instanceof Dimension)
+			{
+				return ((Dimension) other).lon == this.lon  &&  ((Dimension) other).lat == this.lat ||
+						((Dimension) other).lon == this.lat  &&  ((Dimension) other).lat == this.lon;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+	
+	public static Dimension makeDimenstion(int x, int y) throws Exception{
+		return (Dimension) Dimension.class.getConstructors()[0].newInstance(x, y);
+	}
+	
 	/*
 	public static Object[][][] rotate(int degree, Object[][][] map){
 		degree = (90 * (degree / 90)) % 360;

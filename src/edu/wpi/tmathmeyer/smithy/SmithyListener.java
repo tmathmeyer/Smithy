@@ -38,7 +38,25 @@ public class SmithyListener implements Listener{
 			{
 				if (event.getClickedBlock().getType().equals(Material.CHEST))
 				{
-					
+					ClickSet s = this.playerClickSets.get(p);
+					if (s == null)
+					{
+						s = new ClickSet();
+						this.playerClickSets.put(p,  s);
+						p.sendMessage("you have not selected the corners for this smithy yet. please click on the two corner blocks in order to select the locations.");
+					}
+					else if (s.getCount() == 0)
+					{
+						p.sendMessage("you have not selected the corners for this smithy yet. please click on the two corner blocks in order to select the locations.");
+					}
+					else if (s.getCount() == 1)
+					{
+						p.sendMessage("you have only selected one corner for this smithy. please select the other corner first.");
+					}
+					else
+					{
+						//build the smithy
+					}
 				}
 				else
 				{
@@ -86,6 +104,10 @@ public class SmithyListener implements Listener{
 				this.reset();
 				return 0;
 			}
+		}
+		
+		public int getCount(){
+			return (click1==null?0:1) + (click2==null?0:1);
 		}
 		
 		public void reset(){
