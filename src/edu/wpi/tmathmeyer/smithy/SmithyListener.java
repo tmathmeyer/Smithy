@@ -2,13 +2,13 @@ package edu.wpi.tmathmeyer.smithy;
 
 import java.util.HashMap;
 
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -55,7 +55,31 @@ public class SmithyListener implements Listener{
 					}
 					else
 					{
-						//build the smithy
+						Location corner1 = s.click1;
+						Location corner2 = s.click2;
+						Location[] potentialChests = {corner1.subtract(1,0,0), corner1.subtract(-1,0,0), corner1.subtract(0,0,1), corner1.subtract(0,0,-1),
+								corner2.subtract(1,0,0), corner2.subtract(-1,0,0), corner2.subtract(0,0,1), corner2.subtract(0,0,-1)};
+						Chest c = null;
+						for(Location chest : potentialChests)
+						{
+							if (chest.getBlock() instanceof Chest)
+							{
+								c = (Chest) chest.getBlock();
+							}
+						}
+						if (c == null)
+						{
+							p.sendMessage("there was no chest found within range of this structure");
+						}
+						else
+						{
+							try {
+								SmithyFileManager.getInstance().getSmithyEntityMap(corner1, corner2).Build(c, corner1, corner2);
+							} catch (Exception e) {
+								p.sendMessage("Your server admin has misconfigured the smithy pluggin. not to worry though, send them this message:");
+								p.sendMessage(e.getMessage());
+							}
+						}
 					}
 				}
 				else

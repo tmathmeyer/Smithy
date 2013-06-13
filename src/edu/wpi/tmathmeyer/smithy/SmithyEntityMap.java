@@ -13,6 +13,16 @@ public class SmithyEntityMap {
 	private Material[][][] map;
 	private HashMap<Material, Integer> count = new HashMap<Material, Integer>();
 	
+	
+	public SmithyEntityMap(int x, int y, int z){
+		this.map = new Material[y][x][z];
+	}
+	
+	public SmithyEntityMap(int[] xyz){
+		this(xyz[0], xyz[1], xyz[2]);
+	}
+	
+	
 	public Material setMaterial(int height, int lat, int lon, Material n) throws Exception
 	{
 		if (map[height][lat][lon] == null)

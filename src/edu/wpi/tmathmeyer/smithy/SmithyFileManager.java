@@ -1,9 +1,12 @@
 package edu.wpi.tmathmeyer.smithy;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 
 public class SmithyFileManager {
 	
@@ -24,7 +27,7 @@ public class SmithyFileManager {
 	private HashMap<SmithyEntityMap.Dimension, SmithyEntityMap> entitySizeMap = new HashMap<SmithyEntityMap.Dimension, SmithyEntityMap>();
 	
 	
-	public SmithyEntityMap getSmithyEntityMap(Location a, Location b) throws Exception{
+	public SmithyEntityMap getSmithyEntityMap(Location a, Location b) throws Exception {
 		int width = a.getBlockX() - b.getBlockX();
 		int length = a.getBlockZ() - b.getBlockZ();
 		
@@ -50,7 +53,28 @@ public class SmithyFileManager {
 		
 	}
 	
-	private SmithyEntityMap readSmithyEntityMap(File mapData){
-		return null;
+	private SmithyEntityMap readSmithyEntityMap(File mapData) throws NumberFormatException, Exception{
+		Scanner mapReader = new Scanner(mapData);
+		int[] xyz = new int[3];
+		SmithyEntityMap sem = new SmithyEntityMap(xyz);
+		int pos = 0;
+		for(String s : mapReader.nextLine().split(","))
+		{
+			xyz[pos++] = Integer.parseInt(s);
+		}
+		
+		for(int height = 0; height < xyz[1]; height++)
+		{
+			for(int lat = 0; lat < xyz[0]; lat++)
+			{
+				pos = 0;
+				for(String s : mapReader.nextLine().split(","))
+				{
+					sem.setMaterial(lat, height, pos++, Material.getMaterial(Integer.parseInt(s)));
+				}
+			}
+		}
+		
+		return sem;
 	}
 }
